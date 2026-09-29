@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>F!ND Purpose Check (Copy)</title>
+<style>
+:root{--bg:#F2F2F7;--outer:#E4E5EB;--card:#FFFFFF;--text:#0B1220;--muted:#55596A;--line:#D8D8DE;--accent:#0A6CFF;--accent-text:#0A5BD6;--soft:#E5F0FF;--shadow:0 6px 20px rgba(11,18,32,.10);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B0B0F;--outer:#000000;--card:#1C1C21;--text:#F5F5F7;--muted:#A6ABB8;--line:#2F3038;--accent-text:#7DB4FF;--soft:#14263F;--shadow:0 6px 20px rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{--bg:#0B0B0F;--outer:#000000;--card:#1C1C21;--text:#F5F5F7;--muted:#A6ABB8;--line:#2F3038;--accent-text:#7DB4FF;--soft:#14263F;--shadow:0 6px 20px rgba(0,0,0,.5)}
+*{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;height:100%;background:var(--outer);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.4}
+button,input,textarea{font-family:inherit}
+#app{max-width:480px;height:100%;margin:0 auto;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+.screen{flex:1;min-height:0;overflow-y:auto;padding:20px 20px 24px;-webkit-overflow-scrolling:touch}
+.bar{flex-shrink:0;padding:12px 20px 14px;background:var(--bg);border-top:1px solid var(--line);display:flex;gap:12px;align-items:center;justify-content:center}
+.bar3{gap:22px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1{font-size:30px;font-weight:800;letter-spacing:-.6px;line-height:1.1;margin:22px 0 10px}
+h2{font-size:22px;font-weight:800;letter-spacing:-.3px;margin:26px 0 8px;line-height:1.2}
+h3{font-size:17px;font-weight:700;margin:20px 0 4px}
+.lead{font-size:17px;color:var(--muted);margin:0 0 14px}
+.frame{font-size:15px;color:var(--muted);margin:8px 0 10px}
+.fine{font-size:13px;color:var(--muted);margin:10px 0 0}
+.muted{color:var(--muted)}
+.err{color:#C2410C;font-weight:600;font-size:14px}
+:root[data-theme="dark"] .err{color:#FDBA74}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .err{color:#FDBA74}}
+.logo{display:inline-flex;flex-direction:column;background:#0B1220;border-radius:16px;padding:10px 18px 11px;border:1px solid var(--line)}
+.lg{font-weight:800;letter-spacing:-1px;line-height:1;color:#fff;font-size:34px}
+.ex{color:#0A84FF}
+.slogan{margin-top:4px;font-size:12px;font-weight:600;color:#C9D3E6;letter-spacing:.3px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 22px}
+.pill{background:var(--soft);color:var(--accent-text);font-size:13px;font-weight:700;border-radius:999px;padding:6px 12px}
+.stackbtns{display:flex;flex-direction:column;gap:10px}
+.btn{min-height:50px;border-radius:14px;border:0;padding:8px 20px;font-size:17px;font-weight:700;cursor:pointer;line-height:1.2}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.soft{background:var(--soft);color:var(--accent-text)}
+.btn.block{width:100%}
+.btn.small{min-height:44px;font-size:15px;padding:6px 14px;margin-top:6px}
+.btn:disabled,.rbtn:disabled{opacity:.4;cursor:not-allowed}
+.linkbtn{background:none;border:0;color:var(--accent-text);font-size:16px;font-weight:700;min-height:44px;cursor:pointer;padding:0 8px}
+.linkbtn.left{padding:0;margin-left:-2px}
+.topbar .cap{font-size:13px;font-weight:700;color:var(--accent-text);letter-spacing:.04em;margin-bottom:8px;text-transform:uppercase}
+.prog{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.cnt{display:flex;justify-content:space-between;font-size:14px;font-weight:600;color:var(--muted);margin-top:10px}
+.stack{position:relative;height:340px;margin:14px 0 6px}
+.swipecard{position:absolute;inset:0;background:var(--card);border-radius:24px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;padding:28px;text-align:center;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;border:1px solid var(--line)}
+.swipecard.back{transform:scale(.94) translateY(14px);opacity:.6}
+.ctext{font-size:24px;font-weight:800;line-height:1.25;letter-spacing:-.3px;pointer-events:none}
+.stamp{position:absolute;top:18px;padding:4px 10px;border:3px solid;border-radius:10px;font-weight:800;font-size:14px;opacity:0;letter-spacing:.05em;pointer-events:none}
+.stamp.yes{left:18px;color:var(--accent-text);border-color:var(--accent-text);transform:rotate(-8deg)}
+.stamp.no{right:18px;color:var(--muted);border-color:var(--muted);transform:rotate(8deg)}
+.hint{font-size:14px;color:var(--muted);text-align:center;min-height:40px;margin:14px 0 0}
+.rbtn{width:64px;height:64px;border-radius:32px;border:0;display:flex;align-items:center;justify-content:center;background:var(--card);box-shadow:var(--shadow);color:var(--muted);cursor:pointer}
+.rbtn.small{width:48px;height:48px}
+.rbtn.yes{background:var(--accent);color:#fff}
+.opt{display:block;width:100%;text-align:center;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:22px 18px;font-size:19px;font-weight:700;line-height:1.3;color:var(--text);box-shadow:var(--shadow);cursor:pointer}
+.opt:active{border-color:var(--accent)}
+.or{text-align:center;color:var(--muted);font-size:14px;margin:10px 0}
+.trayitem{display:block;width:100%;text-align:left;background:var(--card);border:2px solid transparent;border-radius:14px;padding:13px 14px;font-size:15px;font-weight:600;color:var(--text);box-shadow:var(--shadow);margin-top:8px;cursor:pointer;min-height:48px}
+.trayitem[aria-pressed="true"]{border-color:var(--accent);background:var(--soft)}
+.pyrbuild{display:flex;flex-direction:column;align-items:center;gap:8px;margin:12px 0 6px}
+.tier{border:2px dashed var(--line);border-radius:16px;padding:10px;min-height:64px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.tier.open{border-color:var(--accent);background:var(--soft)}
+.tl{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.03em}
+.tchips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:100%}
+.chip{color:#fff;font-weight:700;font-size:13px;line-height:1.2;border-radius:12px;padding:10px 12px;text-align:center;border:0;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+button.chip{cursor:pointer}
+.box{background:var(--card);border-radius:20px;padding:16px;box-shadow:var(--shadow);margin-top:12px}
+.nl{display:block;font-size:15px;font-weight:700;margin-bottom:8px}
+textarea,input[type=text]{width:100%;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--text);padding:12px;font-size:16px}
+.pyr{display:flex;flex-direction:column;align-items:center;gap:8px}
+.prow{display:flex;gap:8px;justify-content:center}
+.prow.r1{width:60%}.prow.r2{width:82%}.prow.r3{width:100%;flex-wrap:wrap}
+.pyr .chip{flex:1 1 auto;padding:10px 12px;min-height:44px}
+.prow.r3 .chip{flex:1 1 calc(50% - 8px)}
+.prow.r2 .chip{flex:1 1 calc(50% - 8px)}
+.prow.r1 .chip{font-size:16px;padding:12px 16px}
+.pyr.small .chip{font-size:12px;padding:8px 10px;min-height:38px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i,.dot{display:inline-block;width:10px;height:10px;border-radius:5px}
+.vt{display:flex;align-items:center;gap:8px;font-size:18px}
+.mline{font-size:15px;margin:6px 0 0}
+.bars .brow{display:grid;grid-template-columns:118px 1fr 30px;gap:8px;align-items:center;margin-top:9px;font-size:14px}
+.track{height:12px;border-radius:6px;background:var(--line);overflow:hidden}
+.track i{display:block;height:100%;border-radius:6px}
+.num{text-align:right;font-weight:700}
+.mcard .mh{display:flex;flex-direction:column;gap:2px}
+.mrow{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:15px}
+.meter{display:flex;gap:4px}
+.meter i{width:26px;height:8px;border-radius:4px;background:var(--line)}
+.meter i.on{background:var(--accent)}
+details{margin-top:10px}
+summary{font-size:14px;font-weight:700;color:var(--accent-text);cursor:pointer;min-height:44px;display:flex;align-items:center}
+.code{display:block;word-break:break-all;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:6px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+"use strict";
+
+const RAW = {
+ SB:[['Hier kann ich meine Arbeit selbst einteilen.','Arbeit selbst einteilen'],['Hier darf ich eigene Ideen umsetzen, ohne jedes Mal um Erlaubnis zu fragen.','Eigene Ideen umsetzen'],['Hier entscheide ich weitgehend selbst, wie ich zum Ergebnis komme.','Eigener Lösungsweg'],['Hier kann ich Arbeitszeit und Arbeitsort flexibel wählen.','Zeit und Ort flexibel'],['Hier kann ich mir Themen aussuchen, in die ich mich vertiefe.','Themen selbst wählen']],
+ ST:[['Hier bringt fast jede Woche etwas Neues.','Jede Woche Neues'],['Hier bekomme ich Aufgaben, bei denen ich nicht sicher bin, ob ich sie schaffe.','Echte Herausforderungen'],['Hier ist Veränderung normal, Projekte und Abläufe wechseln oft.','Veränderung ist normal'],['Hier probiert man Neues aus, auch wenn es schiefgehen kann.','Neues ausprobieren'],['Hier komme ich regelmäßig in ganz neue Situationen, mit neuen Kunden, Ländern oder Themen.','Neue Situationen']],
+ HE:[['Hier macht die Arbeit mir Spaß.','Spaß an der Arbeit'],['Hier wird gemeinsam gelacht und gefeiert.','Gemeinsam feiern'],['Hier kann ich Pausen machen, ohne schlechtes Gewissen.','Pausen ohne Druck'],['Hier ist das Arbeitsumfeld angenehm gestaltet, vom Büro bis zur Ausstattung.','Angenehmes Umfeld'],['Hier ist nach Feierabend wirklich Feierabend, und ich habe Zeit für mein Leben.','Echter Feierabend']],
+ LE:[['Hier wird gute Arbeit sichtbar anerkannt.','Anerkennung'],['Hier werde ich an meinen Ergebnissen gemessen.','An Ergebnissen gemessen'],['Hier gelten hohe Qualitätsansprüche.','Hohe Qualität'],['Hier kann ich mich fachlich beweisen und Erfolge vorweisen.','Fachlich beweisen'],['Hier treiben ehrgeizige Ziele das Team an.','Ehrgeizige Ziele']],
+ MA:[['Hier kann ich in eine Führungsposition aufsteigen.','Aufstieg in Führung'],['Hier kann ich Entscheidungen mit großer Tragweite beeinflussen.','Große Entscheidungen'],['Hier verdiene ich überdurchschnittlich gut.','Gut verdienen'],['Hier hat meine Stimme Gewicht, wenn es um wichtige Fragen geht.','Meine Stimme zählt'],['Hier bekomme ich Ansehen für meine Position und Verantwortung.','Ansehen und Verantwortung']],
+ SI:[['Hier ist mein Arbeitsplatz langfristig sicher.','Sicherer Arbeitsplatz'],['Hier kann ich mich auf ein verlässliches Einkommen verlassen.','Verlässliches Einkommen'],['Hier sind Abläufe und Zuständigkeiten stabil und planbar.','Stabile Abläufe'],['Hier ist das Unternehmen wirtschaftlich solide.','Solides Unternehmen'],['Hier weiß ich, was in den nächsten Monaten auf mich zukommt.','Planbare Zukunft']],
+ KO:[['Hier halten sich alle an vereinbarte Regeln.','Regeln einhalten'],['Hier ist klar geregelt, was von mir erwartet wird.','Klare Erwartungen'],['Hier wird auf einen respektvollen Umgangston geachtet, auch wenn es schwierig wird.','Respektvoller Umgang'],['Hier sind Pünktlichkeit und Verbindlichkeit selbstverständlich.','Verbindlichkeit'],['Hier folgt man festgelegten Prozessen, statt jeden Fall neu zu erfinden.','Feste Prozesse']],
+ TR:[['Hier werden bewährte Arbeitsweisen gepflegt.','Bewährte Arbeitsweisen'],['Hier ist die Firmengeschichte lebendig und wird wertgeschätzt.','Firmengeschichte'],['Hier schätzt man Erfahrung mehr als das Neueste.','Erfahrung zählt'],['Hier gibt es feste Rituale und Bräuche, etwa Feste und Jubiläen.','Rituale und Bräuche'],['Hier bleibt das Unternehmen seinen Wurzeln treu, auch wenn sich der Markt verändert.','Den Wurzeln treu']],
+ WO:[['Hier unterstützen sich Kolleginnen und Kollegen gegenseitig.','Gegenseitige Hilfe'],['Hier ist das Team eine Gemeinschaft, auf die ich mich verlassen kann.','Team als Gemeinschaft'],['Hier interessiert sich die Führung für mein Wohlergehen.','Führung kümmert sich'],['Hier wird man als Neue oder Neuer von Anfang an eingebunden und unterstützt.','Gute Einarbeitung'],['Hier kann ich auch Schwächen zeigen, ohne dafür bewertet zu werden.','Schwächen zeigen dürfen']],
+ UN:[['Hier trägt meine Arbeit zu einer besseren Gesellschaft bei.','Sinn für die Gesellschaft'],['Hier gehen wir sorgsam mit Umwelt und Ressourcen um.','Umwelt und Ressourcen'],['Hier wird Chancengleichheit aktiv gefördert.','Chancengleichheit'],['Hier ist Vielfalt im Team ausdrücklich erwünscht.','Vielfalt im Team'],['Hier bedenken wir die Folgen unseres Handelns für andere Länder und künftige Generationen.','Folgen für die Welt']]
+};
+const ORDER = ['SB','ST','HE','LE','MA','SI','KO','TR','WO','UN'];
+const GROUPS = [
+ {n:'Offenheit für Neues', col:'#0A6CFF'},
+ {n:'Erfolg und Genuss', col:'#C2410C'},
+ {n:'Sicherheit und Ordnung', col:'#1F7A34'},
+ {n:'Miteinander und Sinn', col:'#7E22CE'}
+];
+const VALS = [
+ {c:'SB', n:'Selbstbestimmung', g:0, d:'Eigenständig entscheiden und den eigenen Weg gehen.', w:'Freiräume, Vertrauen und Eigenverantwortung.'},
+ {c:'ST', n:'Stimulation', g:0, d:'Abwechslung, Neues und Herausforderungen.', w:'Wechselnde Aufgaben, neue Projekte und Tempo.'},
+ {c:'HE', n:'Hedonismus', g:1, d:'Freude, Genuss und Erholung.', w:'Gute Atmosphäre und eine Balance zwischen Arbeit und Leben.'},
+ {c:'LE', n:'Leistung', g:1, d:'Etwas erreichen und sich beweisen.', w:'Klare Ziele, messbare Ergebnisse und Anerkennung.'},
+ {c:'MA', n:'Macht', g:1, d:'Einfluss nehmen, Verantwortung tragen und vorankommen.', w:'Aufstiegswege, Mitsprache und gute Bezahlung.'},
+ {c:'SI', n:'Sicherheit', g:2, d:'Stabilität, Verlässlichkeit und Planbarkeit.', w:'Sichere Stellen, klare Abläufe und eine planbare Zukunft.'},
+ {c:'KO', n:'Konformität', g:2, d:'Regeln, Verbindlichkeit und respektvoller Umgang.', w:'Klare Zuständigkeiten, feste Prozesse und verlässliche Absprachen.'},
+ {c:'TR', n:'Tradition', g:2, d:'Bewährtes, Herkunft und gewachsene Kultur.', w:'Betriebe mit Geschichte, Erfahrung und festen Bräuchen.'},
+ {c:'WO', n:'Wohlwollen', g:3, d:'Zusammenhalt und das Wohl der Kolleginnen und Kollegen.', w:'Teamgeist, Unterstützung und Vertrauen.'},
+ {c:'UN', n:'Universalismus', g:3, d:'Etwas Gutes für Menschen, Gesellschaft und Umwelt bewirken.', w:'Sinnstiftende Aufgaben, Nachhaltigkeit und Vielfalt.'}
+];
+const VBY = {}; VALS.forEach(v => VBY[v.c] = v);
+const CARDS = []; ORDER.forEach(c => RAW[c].forEach((x, i) => CARDS.push({id: c + (i + 1), v: c, t: x[0], s: x[1]})));
+const BYID = {}; CARDS.forEach(c => BYID[c.id] = c);
+const W = [4, 2, 2, 1, 1, 1, 1];
+const T_HIGH = 0.62, T_MID = 0.38;
+
+const DEMO = [
+ {n:'Betrieb A', b:'Maschinenbau · Mittelstand', ids:['LE3','SI1','KO2','TR3','SI3','LE4','WO1']},
+ {n:'Betrieb B', b:'Elektrohandwerk · kleiner Betrieb', ids:['WO2','TR3','KO4','SI2','WO3','LE3','SB1']},
+ {n:'Betrieb C', b:'Pflege und Soziales', ids:['WO1','UN1','WO3','WO4','KO3','UN3','SI2']},
+ {n:'Betrieb D', b:'Digitalagentur', ids:['SB2','ST1','SB4','HE1','LE4','ST4','MA4']},
+ {n:'Betrieb E', b:'Nachhaltige Technik · Start-up', ids:['UN2','ST3','SB2','UN1','LE5','WO2','UN5']}
+];
+const TEAM_SAMPLE = [
+ ['WO2','TR3','KO4','SI2','WO3','LE3','SB1'],['WO1','SI1','TR3','KO2','WO4','LE3','SI3'],
+ ['LE3','KO4','WO2','SI2','TR1','WO3','SB1'],['WO2','WO1','SI2','TR3','LE4','KO4','SB1'],
+ ['SB1','WO2','LE3','SI1','TR3','WO3','HE5'],['WO3','KO2','SI1','LE3','WO4','TR3','HE1'],
+ ['WO2','LE3','TR3','SI2','KO4','SB4','WO1'],['KO4','WO2','SI1','TR1','LE3','WO3','SB1']
+];
+
+function vecOf(ids) { const v = {}; ORDER.forEach(c => v[c] = 0); ids.forEach((id, i) => { v[BYID[id].v] += W[i]; }); return v; }
+function cosine(a, b) { let d = 0, na = 0, nb = 0; ORDER.forEach(c => { d += a[c] * b[c]; na += a[c] * a[c]; nb += b[c] * b[c]; }); return na && nb ? d / Math.sqrt(na * nb) : 0; }
+function levelOf(c) { return c >= T_HIGH ? 2 : (c >= T_MID ? 1 : 0); }
+function codeOf(role, ids) { return 'FIND1-' + (role === 'bewerber' ? 'B' : 'M') + '-' + ids.join('.'); }
+function parseCode(s) {
+  const m = /^FIND1-([BM])-([A-Z]{2}[1-5](?:\.[A-Z]{2}[1-5]){6})$/.exec(String(s || '').trim().toUpperCase());
+  if (!m) return null;
+  const ids = m[2].split('.');
+  if (new Set(ids).size !== 7 || ids.some(i => !BYID[i])) return null;
+  return {role: m[1] === 'B' ? 'bewerber' : 'mitarbeiter', ids};
+}
+function compareVec(a, b) {
+  const cos = cosine(a, b);
+  const ov = ORDER.map(c => ({c, o: Math.min(a[c], b[c]), d: Math.abs(a[c] - b[c])}));
+  const common = ov.filter(x => x.o > 0).sort((x, y) => y.o - x.o).slice(0, 2).map(x => x.c);
+  const diff = ov.slice().sort((x, y) => y.d - x.d)[0];
+  return {cos, level: levelOf(cos), common, diff: diff && diff.d > 0 ? diff.c : null};
+}
+function teamAgg(lists) {
+  const n = lists.length;
+  const cardScore = {}; CARDS.forEach(c => cardScore[c.id] = 0);
+  const sum = {}; ORDER.forEach(c => sum[c] = 0);
+  const vecs = lists.map(ids => vecOf(ids));
+  lists.forEach(ids => ids.forEach((id, i) => { cardScore[id] += W[i]; }));
+  vecs.forEach(v => ORDER.forEach(c => { sum[c] += v[c]; }));
+  const avg = {}; ORDER.forEach(c => avg[c] = n ? sum[c] / n : 0);
+  const top = CARDS.map(c => c.id).filter(id => cardScore[id] > 0).sort((a, b) => cardScore[b] - cardScore[a] || (a < b ? -1 : 1)).slice(0, 7);
+  let agree = 0; vecs.forEach(v => { agree += cosine(v, avg); }); agree = n ? agree / n : 0;
+  return {n, avg, top, agree};
+}
+
+const CAP = 18, MINSEL = 10;
+const S = {screen:'start', mode:'sort', trimmed:false, role:'bewerber', deck:[], i:0, yes:[], no:[], hist:[], pick:{}, remaining:[], duels:{}, pair:null, dhist:[], tiers:{top:[], mid:[], base:[]}, sel:null, notes:{}, cmp:'', team:''};
+const app = document.getElementById('app');
+let busy = false;
+
+function h(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const k in (attrs || {})) {
+    const v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'style') e.style.cssText = v;
+    else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  kids.flat(Infinity).forEach(c => { if (c == null || c === false) return; e.append(c.nodeType ? c : document.createTextNode(String(c))); });
+  return e;
+}
+function icon(html) { const s = document.createElement('span'); s.innerHTML = html; s.style.display = 'inline-flex'; s.setAttribute('aria-hidden', 'true'); return s; }
+const IC = {
+  x: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  check: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  undo: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>'
+};
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function btn(label, cls, onclick, extra) { return h('button', Object.assign({type: 'button', class: 'btn ' + cls, onclick}, extra || {}), label); }
+function logo() { return h('div', {class: 'logo'}, h('div', {class: 'lg'}, h('span', {}, 'F'), h('span', {class: 'ex'}, '!'), h('span', {}, 'ND')), h('div', {class: 'slogan'}, "Don't search. Find.")); }
+function chip(t) { return h('span', {class: 'pill'}, t); }
+function gcol(v) { return GROUPS[VBY[v].g].col; }
+function frameText() { return S.role === 'bewerber' ? 'Stell dir vor, du beginnst bei einem neuen Arbeitgeber. Was soll dort gelten?' : 'Was gilt bei euch tatsächlich?'; }
+function stepNo(name) { const seq = ['sort']; if (S.trimmed) seq.push('trim'); seq.push('duel', 'pyr', 'note'); return seq.indexOf(name) + 1; }
+function topbar(name, title) {
+  return h('div', {class: 'topbar'}, h('div', {class: 'cap', role: 'status'}, 'Runde ' + stepNo(name) + ' · ' + title));
+}
+function progress(p) { return h('div', {class: 'prog', 'aria-hidden': 'true'}, h('i', {style: 'width:' + Math.round(p * 100) + '%'})); }
+function orderedIds() { return [S.tiers.top[0], ...S.tiers.mid.slice().sort(), ...S.tiers.base.slice().sort()]; }
+
+function go(screen) { S.screen = screen; render(); const sc = app.querySelector('.screen'); if (sc) sc.scrollTop = 0; }
+function render() {
+  app.replaceChildren();
+  const fn = {start: screenStart, round1: screenRound1, topup: screenTopup, trimintro: screenTrimIntro, round2: screenRound2, round3: screenRound3, round4: screenRound4, result: screenResult, team: screenTeam}[S.screen];
+  fn().forEach(n => app.append(n));
+}
+
+/* ---------- Start ---------- */
+function startTest(role) {
+  S.role = role; S.mode = 'sort'; S.trimmed = false; S.deck = shuffle(CARDS.slice()); S.i = 0; S.yes = []; S.no = []; S.hist = []; S.pick = {};
+  S.remaining = []; S.duels = {}; S.pair = null; S.dhist = []; S.tiers = {top: [], mid: [], base: []}; S.sel = null; S.notes = {};
+  go('round1');
+}
+function screenStart() {
+  return [h('div', {class: 'screen'},
+    logo(),
+    h('h1', {}, 'Was ist dir bei der Arbeit wichtig?'),
+    h('p', {class: 'lead'}, 'In etwa 10 Minuten findest du heraus, welche Werte dich bei der Arbeit antreiben. Es gibt kein Richtig oder Falsch.'),
+    h('div', {class: 'pills'}, chip('50 Aussagen'), chip('Wischen und vergleichen'), chip('Deine Wertepyramide')),
+    h('div', {class: 'stackbtns'},
+      btn('Ich suche einen Ausbildungs- oder Arbeitsplatz', 'primary block', () => startTest('bewerber')),
+      btn('Ich arbeite in einem Betrieb', 'soft block', () => startTest('mitarbeiter')),
+      h('button', {type: 'button', class: 'linkbtn', onclick: () => go('team')}, 'Team auswerten (für Betriebe)')),
+    h('p', {class: 'fine'}, 'Deine Antworten werden weder gespeichert noch versendet. Beta-Version zum Ausprobieren, kein wissenschaftlich validierter Test.'))];
+}
+
+/* ---------- Runde 1 ---------- */
+function trimMode() { return S.mode === 'trim'; }
+function canDrop() { return S.yes.length + (S.deck.length - S.i - 1) >= MINSEL; }
+function blocked(imp) { return trimMode() && (imp ? S.yes.length >= CAP : !canDrop()); }
+function decide(imp) {
+  const c = S.deck[S.i];
+  if (blocked(imp)) { render(); return; }
+  S.hist.push({id: c.id, imp});
+  (imp ? S.yes : S.no).push(c.id);
+  S.i++;
+  if (S.i >= S.deck.length) finishRound1(); else render();
+}
+function undo1() {
+  if (busy) return;
+  const l = S.hist.pop(); if (!l) return;
+  (l.imp ? S.yes : S.no).pop(); S.i--; render();
+}
+function afterSort() {
+  if (S.yes.length < MINSEL) { S.pick = {}; go('topup'); }
+  else if (S.yes.length > CAP) { S.trimmed = true; go('trimintro'); }
+  else startRound2();
+}
+function finishRound1() { if (trimMode()) startRound2(); else afterSort(); }
+function startTrim() {
+  S.mode = 'trim';
+  S.deck = shuffle(S.yes.map(id => BYID[id])); S.i = 0; S.yes = []; S.no = []; S.hist = [];
+  go('round1');
+}
+function screenTrimIntro() {
+  return [
+    h('div', {class: 'screen'},
+      topbar('trim', 'Abwählen'),
+      h('h2', {}, 'Jetzt mit Überblick'),
+      h('p', {class: 'lead'}, 'Du hast ' + S.yes.length + ' von ' + CARDS.length + ' Karten gewählt. Das sind mehr als ' + CAP + '. Du siehst deine Auswahl jetzt noch einmal und behältst höchstens ' + CAP + ' Karten, nämlich die, die dir am wichtigsten sind.')),
+    h('div', {class: 'bar'}, btn('Los geht’s', 'primary block', startTrim))
+  ];
+}
+function swipeOut(card, imp) {
+  if (busy) return;
+  if (blocked(imp)) { card.style.transition = 'transform .2s'; card.style.transform = ''; card.querySelectorAll('.stamp').forEach(s => s.style.opacity = 0); return; }
+  busy = true;
+  card.style.transition = 'transform .22s, opacity .22s';
+  card.style.transform = 'translateX(' + (imp ? '' : '-') + '140%) rotate(' + (imp ? 18 : -18) + 'deg)';
+  card.style.opacity = '0';
+  setTimeout(() => { busy = false; decide(imp); }, 200);
+}
+function attachSwipe(card) {
+  let sx = 0, dx = 0, drag = false;
+  const yes = card.querySelector('.stamp.yes'), no = card.querySelector('.stamp.no');
+  card.addEventListener('pointerdown', e => { if (busy) return; drag = true; sx = e.clientX; dx = 0; try { card.setPointerCapture(e.pointerId); } catch (x) {} card.style.transition = 'none'; });
+  card.addEventListener('pointermove', e => {
+    if (!drag) return; dx = e.clientX - sx;
+    card.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx / 20) + 'deg)';
+    yes.style.opacity = Math.max(0, Math.min(1, dx / 90)); no.style.opacity = Math.max(0, Math.min(1, -dx / 90));
+  });
+  const end = () => {
+    if (!drag) return; drag = false;
+    if (Math.abs(dx) > 90) swipeOut(card, dx > 0);
+    else { card.style.transition = 'transform .2s'; card.style.transform = ''; yes.style.opacity = 0; no.style.opacity = 0; }
+  };
+  card.addEventListener('pointerup', end); card.addEventListener('pointercancel', end);
+}
+function screenRound1() {
+  const c = S.deck[S.i], trim = trimMode();
+  const noKeep = trim && S.yes.length >= CAP, noDrop = trim && !canDrop();
+  const need = trim ? Math.max(0, S.yes.length + (S.deck.length - S.i) - CAP) : 0;
+  const card = h('div', {class: 'swipecard', id: 'topcard'}, h('div', {class: 'ctext'}, c.t),
+    h('div', {class: 'stamp yes', 'aria-hidden': 'true'}, trim ? 'BEHALTEN' : 'WICHTIG'), h('div', {class: 'stamp no', 'aria-hidden': 'true'}, trim ? 'ABWÄHLEN' : 'WENIGER WICHTIG'));
+  attachSwipe(card);
+  const stack = h('div', {class: 'stack'}, S.i + 1 < S.deck.length ? h('div', {class: 'swipecard back', 'aria-hidden': 'true'}) : null, card);
+  let hint;
+  if (!trim) hint = 'Wische nach rechts, wenn es dir wichtig ist, sonst nach links. Du darfst beliebig viele wählen. Danach wählst du bei Bedarf wieder ab.';
+  else if (noKeep) hint = 'Du hast schon ' + CAP + ' Karten behalten. Wische die nächsten nach links oder gehe mit dem Pfeil zurück.';
+  else if (noDrop) hint = 'Du brauchst mindestens ' + MINSEL + ' Karten. Behalte diese Karte.';
+  else if (need > 0) hint = 'Noch mindestens ' + need + ' Karten abwählen. Wische nach links, um eine Karte abzuwählen.';
+  else hint = 'Du kannst weitere Karten behalten (höchstens ' + CAP + ' insgesamt).';
+  return [
+    h('div', {class: 'screen'},
+      topbar(trim ? 'trim' : 'sort', trim ? 'Abwählen' : 'Sortieren'),
+      progress(S.i / S.deck.length),
+      h('div', {class: 'cnt'}, h('span', {role: 'status'}, 'Karte ' + (S.i + 1) + ' von ' + S.deck.length), h('span', {}, trim ? 'Behalten: ' + S.yes.length + ' von max. ' + CAP : 'Gewählt: ' + S.yes.length)),
+      h('p', {class: 'frame'}, trim ? 'Behalte nur die Karten, die dir am wichtigsten sind.' : frameText()),
+      stack,
+      h('p', {class: 'hint', role: 'status'}, hint)),
+    h('div', {class: 'bar bar3'},
+      h('button', {type: 'button', class: 'rbtn', 'aria-label': trim ? 'Abwählen' : 'Weniger wichtig', disabled: noDrop, onclick: () => swipeOut(card, false)}, icon(IC.x)),
+      h('button', {type: 'button', class: 'rbtn small', 'aria-label': 'Letzte Karte rückgängig machen', disabled: S.hist.length === 0, onclick: undo1}, icon(IC.undo)),
+      h('button', {type: 'button', class: 'rbtn yes', 'aria-label': trim ? 'Behalten' : 'Wichtig für mich', disabled: noKeep, onclick: () => swipeOut(card, true)}, icon(IC.check)))
+  ];
+}
+document.addEventListener('keydown', e => {
+  if (S.screen !== 'round1' || busy) return;
+  const t = e.target && e.target.tagName; if (t === 'INPUT' || t === 'TEXTAREA') return;
+  const card = document.getElementById('topcard'); if (!card) return;
+  if (e.key === 'ArrowRight') swipeOut(card, true);
+  else if (e.key === 'ArrowLeft') swipeOut(card, false);
+});
+
+/* ---------- Auffüllen ---------- */
+function screenTopup() {
+  const need = MINSEL - S.yes.length, picked = Object.keys(S.pick).filter(k => S.pick[k]).length;
+  const list = S.deck.filter(c => S.no.includes(c.id));
+  return [
+    h('div', {class: 'screen'},
+      topbar('sort', 'Sortieren'),
+      h('h2', {}, 'Ein paar mehr, bitte'),
+      h('p', {class: 'lead'}, 'Du hast nur ' + S.yes.length + ' Karten gewählt. Für den nächsten Schritt brauche ich mindestens ' + MINSEL + '. Welche der übrigen sind dir am ehesten noch wichtig?'),
+      h('div', {class: 'cnt'}, h('span', {role: 'status'}, 'Noch ' + Math.max(0, need - picked) + ' auswählen')),
+      list.map(c => h('button', {type: 'button', class: 'trayitem', 'aria-pressed': S.pick[c.id] ? 'true' : 'false', onclick: () => { S.pick[c.id] = !S.pick[c.id]; render(); }}, c.t))),
+    h('div', {class: 'bar'}, btn('Weiter', 'primary block', () => { Object.keys(S.pick).forEach(k => { if (S.pick[k]) S.yes.push(k); }); afterSort(); }, picked < need ? {disabled: true} : {}))
+  ];
+}
+
+/* ---------- Runde 2 ---------- */
+function pickPair() {
+  const pool = shuffle(S.remaining.slice()).sort((a, b) => S.duels[a] - S.duels[b]);
+  const a = pool[0], others = pool.slice(1), minD = S.duels[others[0]];
+  const cand = others.filter(id => S.duels[id] === minD);
+  const diff = cand.filter(id => BYID[id].v !== BYID[a].v);
+  const p = diff.length ? diff : cand;
+  const b = p[Math.floor(Math.random() * p.length)];
+  return Math.random() < 0.5 ? [a, b] : [b, a];
+}
+function startRound2() {
+  S.remaining = S.yes.slice(); S.duels = {}; S.remaining.forEach(id => S.duels[id] = 0); S.dhist = [];
+  S.tiers = {top: [], mid: [], base: []}; S.sel = null;
+  if (S.remaining.length <= 7) { go('round3'); return; }
+  S.pair = pickPair(); go('round2');
+}
+function choose(win, lose) {
+  S.dhist.push({remaining: S.remaining.slice(), duels: Object.assign({}, S.duels), pair: S.pair});
+  S.remaining = S.remaining.filter(x => x !== lose); S.duels[win]++;
+  if (S.remaining.length <= 7) { S.pair = null; go('round3'); } else { S.pair = pickPair(); render(); }
+}
+function undo2() { const l = S.dhist.pop(); if (!l) return; S.remaining = l.remaining; S.duels = l.duels; S.pair = l.pair; render(); }
+function screenRound2() {
+  const total = S.yes.length - 7, done = S.yes.length - S.remaining.length;
+  const [a, b] = S.pair;
+  return [
+    h('div', {class: 'screen'},
+      topbar('duel', 'Vergleichen'), progress(done / total),
+      h('h2', {}, 'Was ist dir wichtiger?'),
+      h('p', {class: 'frame', role: 'status'}, 'Noch ' + (S.remaining.length - 7) + ' Karten aussortieren. ' + frameText()),
+      h('button', {type: 'button', class: 'opt', onclick: () => choose(a, b)}, BYID[a].t),
+      h('div', {class: 'or', 'aria-hidden': 'true'}, 'oder'),
+      h('button', {type: 'button', class: 'opt', onclick: () => choose(b, a)}, BYID[b].t)),
+    h('div', {class: 'bar'}, btn('Zurück', 'soft', undo2, S.dhist.length ? {} : {disabled: true}))
+  ];
+}
+
+/* ---------- Runde 3 ---------- */
+function screenRound3() {
+  const placed = [...S.tiers.top, ...S.tiers.mid, ...S.tiers.base];
+  const tray = S.remaining.filter(id => !placed.includes(id));
+  const cfg = [{k: 'top', n: 'Spitze', s: 'am wichtigsten', cap: 1, w: '62%'}, {k: 'mid', n: 'Mitte', s: 'sehr wichtig', cap: 2, w: '82%'}, {k: 'base', n: 'Basis', s: 'wichtig', cap: 4, w: '100%'}];
+  const tiers = cfg.map(t => {
+    const open = S.sel && S.tiers[t.k].length < t.cap;
+    return h('div', {class: 'tier' + (open ? ' open' : ''), style: 'width:' + t.w, role: 'group', 'aria-label': t.n + ', ' + t.s},
+      h('div', {class: 'tl'}, t.n + ' · ' + t.s),
+      h('div', {class: 'tchips'}, S.tiers[t.k].map(id => h('button', {type: 'button', class: 'chip', style: 'background:' + gcol(BYID[id].v), 'aria-label': BYID[id].s + ', entfernen', onclick: () => { S.tiers[t.k] = S.tiers[t.k].filter(x => x !== id); render(); }}, BYID[id].s))),
+      open ? btn('Hier einordnen', 'soft small', () => { S.tiers[t.k].push(S.sel); S.sel = null; render(); }) : null);
+  });
+  return [
+    h('div', {class: 'screen'},
+      topbar('pyr', 'Pyramide'),
+      h('h2', {}, 'Baue deine Wertepyramide'),
+      h('p', {class: 'frame'}, 'Tippe eine Karte an und dann die Ebene. Ein Tipp auf eine eingeordnete Karte nimmt sie wieder heraus.'),
+      h('div', {class: 'pyrbuild'}, tiers),
+      h('h3', {}, tray.length ? 'Noch einzuordnen (' + tray.length + ')' : 'Alle Karten eingeordnet'),
+      tray.map(id => h('button', {type: 'button', class: 'trayitem', 'aria-pressed': S.sel === id ? 'true' : 'false', onclick: () => { S.sel = S.sel === id ? null : id; render(); }}, BYID[id].t))),
+    h('div', {class: 'bar'}, btn('Weiter', 'primary block', () => go('round4'), tray.length ? {disabled: true} : {}))
+  ];
+}
+
+/* ---------- Runde 4 ---------- */
+function screenRound4() {
+  const ids = [S.tiers.top[0], ...S.tiers.mid.slice().sort()];
+  const q = S.role === 'bewerber' ? 'Was bedeutet dir das konkret?' : 'Woran erkennt man das bei euch im Alltag?';
+  return [
+    h('div', {class: 'screen'},
+      topbar('note', 'Konkretisieren'),
+      h('h2', {}, 'Ein Satz dazu (optional)'),
+      h('p', {class: 'frame'}, 'Deine drei wichtigsten Karten. ' + q),
+      ids.map((id, i) => h('div', {class: 'box'},
+        h('label', {for: 'n' + i, class: 'nl'}, (i === 0 ? 'Spitze: ' : 'Mitte: ') + BYID[id].t),
+        h('textarea', {id: 'n' + i, maxlength: '140', rows: '2', placeholder: 'Kurz in eigenen Worten', oninput: e => { S.notes[id] = e.target.value; }}, S.notes[id] || '')))),
+    h('div', {class: 'bar'}, btn('Ergebnis ansehen', 'primary block', () => go('result')))
+  ];
+}
+
+/* ---------- Ergebnis ---------- */
+function pyramidView(ids, small) {
+  const chipEl = (id, cls) => h('span', {class: 'chip ' + (cls || ''), style: 'background:' + gcol(BYID[id].v)}, BYID[id].s);
+  return h('div', {class: 'pyr' + (small ? ' small' : ''), role: 'img', 'aria-label': 'Wertepyramide: ' + ids.map(i => BYID[i].s).join(', ')},
+    h('div', {class: 'prow r1'}, chipEl(ids[0])),
+    h('div', {class: 'prow r2'}, ids.slice(1, 3).map(i => chipEl(i))),
+    h('div', {class: 'prow r3'}, ids.slice(3, 7).map(i => chipEl(i))));
+}
+function barsView(vec, note) {
+  const rows = VALS.map(v => ({v, p: vec[v.c]})).sort((a, b) => b.p - a.p);
+  const mx = Math.max(1, ...rows.map(r => r.p));
+  return h('div', {class: 'bars'}, rows.map(r => h('div', {class: 'brow'},
+    h('div', {}, r.v.n), h('div', {class: 'track', 'aria-hidden': 'true'}, h('i', {style: 'width:' + (r.p / mx * 100) + '%;background:' + GROUPS[r.v.g].col})),
+    h('div', {class: 'num'}, (Math.round(r.p * 10) / 10).toString().replace('.', ',')))), note ? h('p', {class: 'fine'}, note) : null);
+}
+function legend() { return h('div', {class: 'legend'}, GROUPS.map(g => h('span', {}, h('i', {style: 'background:' + g.col}), g.n))); }
+const LVL = ['Geringe Passung', 'Mittlere Passung', 'Hohe Passung'];
+function matchCard(name, sub, res, ids) {
+  return h('div', {class: 'box mcard'},
+    h('div', {class: 'mh'}, h('strong', {}, name), h('span', {class: 'muted'}, sub)),
+    h('div', {class: 'mrow'}, h('div', {class: 'meter', 'aria-hidden': 'true'}, [0, 1, 2].map(i => h('i', {class: i <= res.level ? 'on' : ''}))), h('strong', {}, LVL[res.level])),
+    h('p', {class: 'mline'}, res.common.length ? 'Gemeinsame Schwerpunkte: ' + res.common.map(c => VBY[c].n).join(', ') : 'Kaum gemeinsame Schwerpunkte.'),
+    res.diff ? h('p', {class: 'mline muted'}, 'Größter Unterschied: ' + VBY[res.diff].n) : null,
+    h('details', {}, h('summary', {}, 'Wertepyramide ansehen'), pyramidView(ids, true)));
+}
+function copyText(t, b) {
+  const done = () => { const o = b.dataset.o || b.textContent; b.dataset.o = o; b.textContent = 'Kopiert'; setTimeout(() => { b.textContent = o; }, 1500); };
+  const fallback = () => { const ta = h('textarea', {style: 'position:fixed;opacity:0;top:0'}, t); document.body.append(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) {} ta.remove(); };
+  try { navigator.clipboard.writeText(t).then(done, fallback); } catch (e) { fallback(); }
+}
+function screenResult() {
+  const ids = orderedIds(), vec = vecOf(ids), code = codeOf(S.role, ids);
+  const you = S.role === 'bewerber';
+  const rank = VALS.map(v => ({v, p: vec[v.c]})).sort((a, b) => b.p - a.p);
+  const top2 = rank.slice(0, 2).filter(r => r.p > 0);
+  const gs = GROUPS.map((g, i) => ({g, p: VALS.filter(v => v.g === i).reduce((s, v) => s + vec[v.c], 0)})).sort((a, b) => b.p - a.p)[0];
+  const noteIds = ids.slice(0, 3).filter(id => (S.notes[id] || '').trim());
+  const text = 'F!ND Purpose Check\nSpitze: ' + BYID[ids[0]].s + '\nMitte: ' + ids.slice(1, 3).map(i => BYID[i].s).join(', ') + '\nBasis: ' + ids.slice(3).map(i => BYID[i].s).join(', ') + '\nSchwerpunkte: ' + top2.map(r => r.v.n).join(', ') + '\nCode: ' + code;
+  const cmpOut = h('div', {id: 'cmpout'});
+  const cmpIn = h('input', {type: 'text', id: 'cmpin', autocomplete: 'off', autocapitalize: 'characters', spellcheck: 'false', placeholder: 'FIND1-M-…', value: S.cmp, oninput: e => { S.cmp = e.target.value; }});
+  const runCmp = () => {
+    cmpOut.replaceChildren();
+    const p = parseCode(S.cmp);
+    if (!p) { cmpOut.append(h('p', {class: 'err', role: 'alert'}, 'Der Code ist ungültig. Er sieht so aus: FIND1-B-SB1.UN2.WO1.LE2.ST1.HE5.SI1')); return; }
+    cmpOut.append(matchCard('Eingegebener Code', p.role === 'bewerber' ? 'Bewerberprofil' : 'Mitarbeitendenprofil', compareVec(vec, vecOf(p.ids)), p.ids));
+  };
+  const demo = DEMO.map(d => ({d, res: compareVec(vec, vecOf(d.ids))})).sort((a, b) => b.res.cos - a.res.cos);
+  return [h('div', {class: 'screen'},
+    logo(),
+    h('h1', {}, you ? 'Dein Werteprofil' : 'Euer Werteprofil'),
+    h('p', {class: 'lead'}, top2.length > 1 ? 'Schwerpunkte: ' + top2[0].v.n + ' und ' + top2[1].v.n + '. Grundausrichtung: ' + gs.g.n + '.' : 'Schwerpunkt: ' + top2[0].v.n + '.'),
+    h('div', {class: 'box'}, pyramidView(ids), legend()),
+    h('h2', {}, 'Was dahintersteckt'),
+    top2.map(r => h('div', {class: 'box'}, h('div', {class: 'vt'}, h('i', {class: 'dot', style: 'background:' + GROUPS[r.v.g].col}), h('strong', {}, r.v.n)), h('p', {class: 'mline'}, r.v.d), h('p', {class: 'mline muted'}, 'Passendes Umfeld: ' + r.v.w))),
+    h('h2', {}, 'Alle Werte im Überblick'),
+    h('div', {class: 'box'}, barsView(vec, 'Punkte aus deiner Pyramide (Spitze 4, Mitte je 2, Basis je 1, zusammen 12).'), legend()),
+    noteIds.length ? h('div', {}, h('h2', {}, you ? 'Deine Worte dazu' : 'Eure Worte dazu'), noteIds.map(id => h('div', {class: 'box'}, h('strong', {}, BYID[id].s), h('p', {class: 'mline'}, S.notes[id].trim())))) : null,
+    h('h2', {}, 'So könnte die Passung aussehen'),
+    h('p', {class: 'frame'}, 'Fiktive Beispielbetriebe, so wie sie im Swipe-Feed erscheinen würden: nur Werte und Branche, ohne Firmennamen. Die Schwellen sind noch nicht kalibriert.'),
+    demo.map(x => matchCard(x.d.n, x.d.b, x.res, x.d.ids)),
+    h('h2', {}, 'Dein Ergebnis-Code'),
+    h('div', {class: 'box'}, h('code', {class: 'code'}, code), h('p', {class: 'fine'}, 'Mit dem Code kannst du dein Ergebnis weitergeben oder später mit anderen vergleichen.'), btn('Code kopieren', 'soft block', e => copyText(code, e.currentTarget))),
+    h('h2', {}, 'Mit einem anderen Code vergleichen'),
+    h('div', {class: 'box'}, h('label', {for: 'cmpin', class: 'nl'}, 'Ergebnis-Code einfügen'), cmpIn, btn('Vergleichen', 'primary block', runCmp, {style: 'margin-top:10px'})),
+    cmpOut,
+    h('div', {class: 'stackbtns', style: 'margin-top:22px'},
+      btn('Ergebnis kopieren', 'soft block', e => copyText(text, e.currentTarget)),
+      navigator.share ? btn('Teilen', 'soft block', () => { navigator.share({title: 'F!ND Purpose Check', text}).catch(() => {}); }) : null,
+      btn('Test neu starten', 'primary block', () => go('start'))),
+    h('p', {class: 'fine'}, 'Eine Momentaufnahme, kein Urteil: Es gibt kein Gut oder Schlecht. Der Test ist eine Beta-Version und noch nicht wissenschaftlich validiert. Deine Angaben verlassen dieses Gerät nicht.'))];
+}
+
+/* ---------- Team ---------- */
+function screenTeam() {
+  const out = h('div', {id: 'teamout'});
+  const ta = h('textarea', {id: 'teamin', rows: '6', spellcheck: 'false', placeholder: 'FIND1-M-…\nFIND1-M-…', oninput: e => { S.team = e.target.value; }}, S.team);
+  const run = () => {
+    out.replaceChildren();
+    const lines = S.team.split(/\n+/).map(s => s.trim()).filter(Boolean);
+    let bad = 0, bew = 0; const lists = [];
+    lines.forEach(l => { const p = parseCode(l); if (!p) bad++; else if (p.role === 'bewerber') bew++; else lists.push(p.ids); });
+    const notes = [bad ? bad + ' Zeile(n) nicht lesbar' : null, bew ? bew + ' Bewerber-Code(s) ignoriert' : null].filter(Boolean).join(', ');
+    if (lists.length < 5) { out.append(h('div', {class: 'box'}, h('strong', {}, 'Noch zu wenige Teilnehmende'), h('p', {class: 'mline'}, 'Gültig: ' + lists.length + '. Zum Schutz Einzelner erscheint die Auswertung erst ab 5 Teilnehmenden.'), notes ? h('p', {class: 'fine'}, notes) : null)); return; }
+    const t = teamAgg(lists), ids = t.top;
+    const aq = t.n >= 20 ? 'hoch' : (t.n >= 10 ? 'mittel' : 'gering'), ag = t.agree >= 0.8 ? 'hoch' : (t.agree >= 0.65 ? 'mittel' : 'gering');
+    out.append(
+      h('h2', {}, 'Eure Firmenpyramide'),
+      h('div', {class: 'box'}, pyramidView(ids), legend()),
+      h('div', {class: 'box'}, h('p', {class: 'mline'}, h('strong', {}, 'Basiert auf ' + t.n + ' Mitarbeitenden. '), 'Aussagekraft: ' + aq + '. Einigkeit im Team: ' + ag + '.'), notes ? h('p', {class: 'fine'}, notes) : null, h('p', {class: 'fine'}, 'Einzelergebnisse werden nie angezeigt. Schwellen für Aussagekraft und Einigkeit sind Demo-Werte.')),
+      h('h2', {}, 'Werte im Team'),
+      h('div', {class: 'box'}, barsView(t.avg, 'Durchschnittliche Punkte pro Person (zusammen 12).'), legend()));
+  };
+  return [h('div', {class: 'screen'},
+    h('button', {type: 'button', class: 'linkbtn left', onclick: () => go('start')}, '← Zurück'),
+    h('h1', {}, 'Team auswerten'),
+    h('p', {class: 'lead'}, 'Für Betriebe: Jede Person im Team macht den Test mit „Ich arbeite in einem Betrieb“ und schickt dir ihren Ergebnis-Code. Füge die Codes hier ein, einen pro Zeile.'),
+    h('label', {for: 'teamin', class: 'nl'}, 'Ergebnis-Codes'), ta,
+    h('div', {class: 'stackbtns', style: 'margin-top:12px'},
+      btn('Beispieldaten einfügen', 'soft block', () => { S.team = TEAM_SAMPLE.map(x => codeOf('mitarbeiter', x)).join('\n'); ta.value = S.team; }),
+      btn('Auswerten', 'primary block', run)),
+    out)];
+}
+
+render();
+
+</script>
+</body>
+</html>
